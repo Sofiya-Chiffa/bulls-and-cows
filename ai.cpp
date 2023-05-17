@@ -3,10 +3,10 @@
 #include <random>
 using namespace std;
 
-int check(int num, int rn){
+int check(int num, int rn) {
 	int k = 0;
 	int b = 0;
-	
+
 	int a1 = rn / 1000;
 	int a2 = rn % 1000 / 100;
 	int a3 = rn % 100 / 10;
@@ -45,11 +45,68 @@ int check(int num, int rn){
 
 }
 
-bool del(int num, int rn, int c) {
+bool delcow(int num, int rn, int c) {
 	int a1 = num % 10;
 	int a2 = num % 100 / 10;
 	int a3 = num % 1000 / 100;
 	int a4 = num / 1000;
+
+	int b1 = rn % 10;
+	int b2 = rn % 100 / 10;
+	int b3 = rn % 1000 / 100;
+	int b4 = rn / 1000;
+	int count = 0;
+	if (a1 == b1 || a1 == b2 || a1 == b3 || a1 == b4) {
+		count += 1;
+	}
+	if (a2 == b1 || a2 == b2 || a2 == b3 || a2 == b4) {
+		count += 1;
+	}
+	if (a3 == b1 || a3 == b2 || a3 == b3 || a3 == b4) {
+		count += 1;
+	}
+	if (a4 == b1 || a4 == b2 || a4 == b3 || a4 == b4) {
+		count += 1;
+	}
+	if (count < c) {
+		return false;
+	}
+	else {
+		return true;
+	}
+}
+
+bool delbull(int num, int rn, int c) {
+	int a1 = num % 10;
+	int a2 = num % 100 / 10;
+	int a3 = num % 1000 / 100;
+	int a4 = num / 1000;
+
+	int b1 = rn % 10;
+	int b2 = rn % 100 / 10;
+	int b3 = rn % 1000 / 100;
+	int b4 = rn / 1000;
+	int count = 0;
+
+	if (a1 == b1) {
+		count += 1;
+	}
+	if (a2 == b2) {
+		count += 1;
+	}
+	if (a3 == b3) {
+		count += 1;
+	}
+	if (a4 == b4) {
+		count += 1;
+	}
+	if (count < c) {
+		return false;
+	}
+	else {
+		return true;
+	}
+
 }
 
 int main() {
@@ -58,19 +115,45 @@ int main() {
 	for (int i = 1000; i < 10000; ++i) {
 		arr[i - 1000] = i;
 	}
+	int len = sizeof(arr);
 	int number;
 	cin >> number;
 	int num;
 	while (true) {
 		num = arr[rand() % 9000];
+		cout << num << "\n";
 		int ch = check(num, number);
+		cout << ch / 10 << " bulls " << ch % 10 << " cows\n";
 		if (ch % 10 != 0) {
-			for (int i = 0; i < sizeof(arr); ++i) {
-				if (del(arr[i], number, ch % 10)) {
-					
+			for (int i = 0; i < len; ++i) {
+				if (arr[i] == number || delcow(arr[i], number, ch % 10)) {
+					for (long k = i; k < len; ++k)
+						{
+							arr[k] = arr[k + 1];
+						}
+					--len;
 				}
 			}
 		}
-		
+		if (ch / 10 != 0) {
+			for (int i = 0; i < len; ++i) {
+				if (arr[i] == number || delbull(arr[i], number, ch % 10)) {
+					for (long k = i; k < len; ++k)
+					{
+						arr[k] = arr[k + 1];
+					}
+					--len;
+				}
+			}
+		}
+		for (long k = 0; k < len; ++k)
+		{
+			cout << arr[k];
+		}
+		if (ch / 10 == 4) {
+			cout << "win!\n";
+			break;
+		}
+
 	}
 }
