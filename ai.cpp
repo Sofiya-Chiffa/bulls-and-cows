@@ -112,18 +112,29 @@ bool delbull(int num, int rn, int c) {
 int main() {
 	srand(time(0));
 	int arr[9000] = {};
+	int len;
 	for (int i = 1000; i < 10000; ++i) {
-		arr[i - 1000] = i;
+		if (i % 10 == i % 100 / 10 || i % 10 == i % 1000 / 100 || i % 10 == i / 1000 ||
+				i % 100 / 10 == i % 1000 / 100 || i % 100 / 10 == i / 1000 || i % 1000 / 100 == i / 1000) {
+			}
+		else {
+				arr[i - 1000] = i;
+			}
+	len = i;
 	}
-	int len = sizeof(arr);
+	cout << len << "\n";
 	int number;
 	cin >> number;
 	int num;
 	while (true) {
-		num = arr[rand() % 9000];
+		num = arr[rand() % len];
 		cout << num << "\n";
 		int ch = check(num, number);
 		cout << ch / 10 << " bulls " << ch % 10 << " cows\n";
+		if (ch / 10 == 4) {
+			cout << "win!\n";
+			break;
+		}
 		if (ch % 10 != 0) {
 			for (int i = 0; i < len; ++i) {
 				if (arr[i] == number || delcow(arr[i], number, ch % 10)) {
@@ -137,7 +148,7 @@ int main() {
 		}
 		if (ch / 10 != 0) {
 			for (int i = 0; i < len; ++i) {
-				if (arr[i] == number || delbull(arr[i], number, ch % 10)) {
+				if (arr[i] == number || delbull(arr[i], number, ch / 10)) {
 					for (long k = i; k < len; ++k)
 					{
 						arr[k] = arr[k + 1];
@@ -145,14 +156,6 @@ int main() {
 					--len;
 				}
 			}
-		}
-		for (long k = 0; k < len; ++k)
-		{
-			cout << arr[k];
-		}
-		if (ch / 10 == 4) {
-			cout << "win!\n";
-			break;
 		}
 
 	}
