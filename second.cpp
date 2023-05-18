@@ -81,6 +81,9 @@ bool checkcow(int n, int r, int c) {
 	if (a4 == b1 || a4 == b2 || a4 == b3 || a4 == b4) {
 		count += 1;
 	}
+	if (c == 0 && count != 0) {
+		return false;
+	}
 	return count >= c;
 }
 
@@ -109,7 +112,7 @@ int main() {
 	cout << "need number: " << numb << "\n\n";
 	int arr[9000] = {};
 	int len = 0;
-	for (int i = 1000; i < 10000;++i) {
+	for (int i = 1000; i < 10000; ++i) {
 		if (i % 10 != i % 100 / 10 && i % 10 != i % 1000 / 100 && i % 10 != i / 1000 &&
 			i % 100 / 10 != i % 1000 / 100 && i % 100 / 10 != i / 1000 && i % 1000 / 100 != i / 1000) {
 			arr[len] = i;
@@ -120,16 +123,21 @@ int main() {
 	for (int i = 0; i < 20; ++i) {
 		int ind = rand() % len;
 		int num = arr[ind];
-		cout << num << "\n";
-		int ch = check(num, numb);
-		cout << i + 1 << ". " << ch / 10 << " bulls " << ch % 10 << " cows\n";
+		cout << i << ". " << num << "\n";
+		cout << "cows: ";
+		int ch1;
+		cin >> ch1;
+		cout << "bulls: ";
+		int ch2;
+		cin >> ch2;
+		int ch = ch1 + ch2 * 10;
 		if (ch == 40) {
 			w = 1;
 			cout << "win\n";
 			break;
 		}
 		int k = 0;
-		while (k<len){
+		while (k < len) {
 			int nk = arr[k];
 			if (nk == num || !checkbull(nk, num, ch / 10) || !checkcow(nk, num, ch / 10 + ch % 10)) {
 				for (long m = k; m < len; ++m)
@@ -138,14 +146,14 @@ int main() {
 				}
 				--len;
 			}
-			else{
+			else {
 				k++;
 			}
-			
+
 		}
-		}
-		if (w == 0) {
-			cout << "loose\n";
 	}
-	
+	if (w == 0) {
+		cout << "loose\n";
+	}
+
 }
