@@ -84,7 +84,7 @@ bool checkcow(int n, int r, int c) {
 	if (c == 0 && count != 0) {
 		return false;
 	}
-	return count >= c;
+	return count == c;
 }
 
 bool checkbull(int n, int r, int c) {
@@ -102,7 +102,7 @@ bool checkbull(int n, int r, int c) {
 	if (n % 10 == r % 10) {
 		count += 1;
 	}
-	return count >= c;
+	return count == c;
 
 }
 
@@ -131,6 +131,7 @@ int main() {
 		int ch2;
 		cin >> ch2;
 		int ch = ch1 + ch2 * 10;
+		cout << ch << "\n";
 		if (ch == 40) {
 			w = 1;
 			cout << "win\n";
